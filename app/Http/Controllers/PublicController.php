@@ -16,6 +16,12 @@ class PublicController extends Controller
         ]);
     }
 
+    public function sendcoordsdata(Request $request) {
+        $lon = $request->input("lon");
+        $lat = $request->input("lat");
+
+      }
+
     public function affichageTop3($lat, $long)
     {
     }
