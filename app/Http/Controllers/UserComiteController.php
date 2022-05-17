@@ -6,7 +6,7 @@ use App\Models\Comite;
 use Illuminate\Http\Request;
 
 
-class ComiteController extends Controller
+class UserComiteController extends Controller
 {
     /**
      * Display a listing of the resource.
