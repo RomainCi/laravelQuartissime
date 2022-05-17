@@ -15,4 +15,8 @@ class PublicController extends Controller
             "comites" => $comites,
         ]);
     }
+
+    public function affichageTop3($lat, $long)
+    {
+    }
 }

@@ -21,5 +21,3 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get("/publics", [PublicController::class, "affichageComites"]);
-
-
