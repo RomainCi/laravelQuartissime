@@ -1,9 +1,9 @@
 <?php
 
+use App\Http\Controllers\PublicController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\GeolocController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,4 +21,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::post('/comites', [GeolocController::class, 'sendcoordsdata']);
+Route::post('/publics', 
+[PublicController::class, 'sendcoordsdata']);
+
+Route::get('/publics', 
+[PublicController::class, 'affichageComites']);
