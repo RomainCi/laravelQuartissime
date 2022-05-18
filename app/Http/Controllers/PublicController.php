@@ -15,13 +15,12 @@ class PublicController extends Controller
             "comites" => $comites,
         ]);
     }
-    public function detailsComite(Request $request)
+    public function showDetailsComite($id)
     {
-        $id = $request->id;
-        $detailsComite = Comite::findOrFail($id);
 
+        $detailsComite = Comite::findOrFail($id);
         return response()->json([
-            "detailscomite" => $detailsComite,
+            "detailsComite" => $detailsComite,
         ]);
     }
 }
