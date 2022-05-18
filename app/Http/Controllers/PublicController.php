@@ -15,8 +15,9 @@ class PublicController extends Controller
             "comites" => $comites,
         ]);
     }
-    public function detailsComite($id)
+    public function detailsComite(Request $request)
     {
+        $id = $request->id;
         $detailsComite = Comite::findOrFail($id);
 
         return response()->json([
