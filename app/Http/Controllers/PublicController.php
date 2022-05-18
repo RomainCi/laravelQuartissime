@@ -15,8 +15,12 @@ class PublicController extends Controller
             "comites" => $comites,
         ]);
     }
-
-    public function affichageTop3($lat, $long)
+    public function detailsComite($id)
     {
+        $detailsComite = Comite::findOrFail($id);
+
+        return response()->json([
+            "detailscomite" => $detailsComite,
+        ]);
     }
 }
