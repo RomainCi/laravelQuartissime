@@ -23,4 +23,14 @@ class PublicController extends Controller
             "detailsComite" => $detailsComite,
         ]);
     }
+    /* public function sendcoordsdata(Request $request)
+    {
+
+        $request->validate([
+            'lon' => 'required|numeric',
+            'lat' => 'required|numeric',
+        ]);
+        $lon = $request->input("lon");
+        $lat = $request->input("lat");
+    } */
 }
