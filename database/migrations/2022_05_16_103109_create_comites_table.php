@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('lastnamePresident');
             $table->string('adress');
             $table->string('email');
-            $table->integer('phone')->nullable();
+            $table->number('phone')->nullable();
             $table->string('facebookLink')->nullable();
             $table->string('webSite')->nullable();
             $table->string('description');
