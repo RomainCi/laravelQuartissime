@@ -15,14 +15,22 @@ class PublicController extends Controller
             "comites" => $comites,
         ]);
     }
+    public function showDetailsComite($id)
+    {
 
-    public function sendcoordsdata(Request $request) {
+        $detailsComite = Comite::findOrFail($id);
+        return response()->json([
+            "detailsComite" => $detailsComite,
+        ]);
+    }
+    /* public function sendcoordsdata(Request $request)
+    {
+
+        $request->validate([
+            'lon' => 'required|numeric',
+            'lat' => 'required|numeric',
+        ]);
         $lon = $request->input("lon");
         $lat = $request->input("lat");
-
-      }
-
-    public function affichageTop3($lat, $long)
-    {
-    }
+    } */
 }
