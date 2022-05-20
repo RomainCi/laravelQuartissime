@@ -36,11 +36,11 @@ class VerifEmail extends Mailable
         if ($this->userRiverain != []) {
 
             return $this->from('no-reply@quartissime-nice.fr')
-                ->subject('information Riverain')
+                ->subject('verification')
                 ->view('emails.infoRiverain');
         } else {
             return $this->from('no-reply@quartissime-nice.fr')
-                ->subject('Ne pas repondre')
+                ->subject('ne pas repondre')
                 ->view('emails.verifEmail');
         }
     }

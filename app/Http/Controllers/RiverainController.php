@@ -51,12 +51,12 @@ class RiverainController extends Controller
             $userRiverain = [];
             // DeleteBddJob::dispatch($token, $user, $userRiverain);
             dispatch(new EmailJob($token, $user, $userRiverain))->delay(now()->addSeconds(3));
-            // Mail::to($user['email'])->send(new VerifEmail($token, $user, $userRiverain));
+            // Mail::to($user['email'])->send(new VerifEmail());
             dispatch(new DeleteBddJob($id))->delay(now()->addMinutes(10));
 
 
             return response()->json([
-                "message" => "votre requete a bien étais traité",
+                "message" => $email,
             ]);
         } catch (\Exception $e) {
             return response()->json([
