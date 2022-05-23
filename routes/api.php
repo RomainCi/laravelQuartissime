@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ComiteController;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\UserComiteController;
 use Illuminate\Http\Request;
@@ -29,7 +30,7 @@ Route::get('/publics/{id}', [PublicController::class, "showDetailsComite"]);
 
 // ROUTES ASSOCIATIONS
 
-Route::get("/publics", [PublicController::class, "affichageAssociations"]);
+// Route::get("/publics", [PublicController::class, "affichageAssociations"]);
 
 // Route::get('/publics/{id}', [PublicController::class, "showDetailsAssociation"]);
 
@@ -41,5 +42,12 @@ Route::get('/comites/nearest', [PublicController::class, "calcultop3assocomite"]
 
 Route::post('login', [UserComiteController::class, "authentificate"]);
 
-Route::get('comites', [UserComiteController::class, "userProfil"])
-->middleware('auth:sanctum');
+// Route::get('comites', [UserComiteController::class, "userProfil"])
+// ->middleware('auth:sanctum');
+
+
+
+Route::middleware('auth:sanctum')->group(function(){
+    Route::get('comites', [UserComiteController::class, "userProfil"]);
+    Route::resource('profilcomite', ComiteController::class);
+});
