@@ -31,3 +31,5 @@ Route::get("/publics", [PublicController::class, "affichageAssociations"]);
 Route::get('/publics/{id}', [PublicController::class, "showDetailsAssociation"]);
 
 Route::get('/comites/nearest', [PublicController::class, "calcultop3assocomite"]);
+
+Route::resource('/comites', ComiteController::class);

@@ -15,12 +15,17 @@ return new class extends Migration
     {
         Schema::create('comites', function (Blueprint $table) {
             $table->id();
+            $table->integer('user_comite_id')->nullable();
             $table->string('comiteName');
             $table->string('firstnamePresident');
             $table->string('lastnamePresident');
             $table->string('adress');
             $table->string('email');
+<<<<<<< HEAD
             $table->int('phone')->nullable();
+=======
+            $table->integer('phone')->nullable();
+>>>>>>> Eric-Sali
             $table->string('facebookLink')->nullable();
             $table->string('webSite')->nullable();
             $table->string('description');
