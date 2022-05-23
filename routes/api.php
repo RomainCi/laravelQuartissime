@@ -1,9 +1,10 @@
 <?php
 
 use App\Http\Controllers\PublicController;
+use App\Http\Controllers\UserComiteController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use Laravel\Sanctum\Sanctum;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,9 +17,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 Route::post('/publics', [PublicController::class, 'sendcoordsdata']);
 
@@ -26,4 +27,19 @@ Route::get("/publics", [PublicController::class, "affichageComites"]);
 
 Route::get('/publics/{id}', [PublicController::class, "showDetailsComite"]);
 
-Route::resource('/comites', ComiteController::class);
+// ROUTES ASSOCIATIONS
+
+Route::get("/publics", [PublicController::class, "affichageAssociations"]);
+
+// Route::get('/publics/{id}', [PublicController::class, "showDetailsAssociation"]);
+
+Route::get('/comites/nearest', [PublicController::class, "calcultop3assocomite"]);
+
+
+
+// ROUTES USER COMITES
+
+Route::post('login', [UserComiteController::class, "authentificate"]);
+
+Route::get('comites', [UserComiteController::class, "userProfil"])
+->middleware('auth:sanctum');
