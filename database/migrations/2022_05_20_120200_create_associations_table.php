@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('comites', function (Blueprint $table) {
+        Schema::create('associations', function (Blueprint $table) {
             $table->id();
-            $table->string('comiteName');
+            $table->string('associationName');
             $table->string('firstnamePresident');
             $table->string('lastnamePresident');
             $table->string('adress');
@@ -38,6 +38,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('comites');
+        Schema::dropIfExists('associations');
     }
 };

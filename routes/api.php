@@ -25,3 +25,9 @@ Route::post('/publics', [PublicController::class, 'sendcoordsdata']);
 Route::get("/publics", [PublicController::class, "affichageComites"]);
 
 Route::get('/publics/{id}', [PublicController::class, "showDetailsComite"]);
+
+Route::get("/publics", [PublicController::class, "affichageAssociations"]);
+
+Route::get('/publics/{id}', [PublicController::class, "showDetailsAssociation"]);
+
+Route::get('/comites/nearest', [PublicController::class, "calcultop3assocomite"]);
