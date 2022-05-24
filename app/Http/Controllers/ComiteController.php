@@ -79,9 +79,27 @@ class ComiteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function update(Request $request, $id)
     {
-        //
+
+        $comite =  Comite::findOrFail($id);
+        
+        $comite->comiteName = $request->input('comiteName');
+        $comite->phone = $request->input('phone');
+        $comite->email = $request->input('email');
+        $comite->webSite = $request->input('webSite');
+        $comite->description = $request->input('description');
+        $comite->firstnamePresident = $request->input('firstnamePresident');
+        $comite->lastnamePresident = $request->input('lastnamePresident');
+
+        $comite->save();
+
+        return response()->json([
+            "comite" => $comite,
+        ]);
+
+        
     }
 
     /**
