@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comite;
+use App\Models\UserComite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,14 +20,11 @@ class ComiteController extends Controller
 
     public function index()
     {
-        $user_id = auth()->user();
-        $id = $user_id['id'];
-
-        $comite = Comite::all()
-            ->where('user_comite_id', '=', $id);
-
+        $user = auth()->user();
+        $comite = $user->comite; //->comite fonction de relation fait dans Model 
+        
         return response()->json([
-            "comite" => $comite[--$id],
+            "comite" => $comite,
         ]);
     }
 
@@ -84,7 +82,7 @@ class ComiteController extends Controller
     {
 
         $comite =  Comite::findOrFail($id);
-        
+
         $comite->comiteName = $request->input('comiteName');
         $comite->phone = $request->input('phone');
         $comite->email = $request->input('email');
