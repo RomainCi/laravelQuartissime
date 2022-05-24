@@ -20,19 +20,14 @@ class ComiteController extends Controller
     public function index()
     {
         $user_id = auth()->user();
-        dd($user_id);
+        $id = $user_id['id'];
 
-        $comite = Comite::select('comite', 'id')
-        ->where('user_comite_id', '=', $user_id)
-        ->get();
-
-        // $comiteId =
-        // Comite::select('comite', 'id')
-        // ->get();
+        $comite = Comite::all()
+            ->where('user_comite_id', '=', $id);
 
         return response()->json([
             "comite" => $comite,
-    
+
         ]);
     }
 
@@ -63,9 +58,8 @@ class ComiteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        //
     }
 
     /**
