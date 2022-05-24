@@ -19,72 +19,40 @@ class ComiteController extends Controller
 
     public function index()
     {
-        $user_id = auth()->user();
-        $id = $user_id['id'];
-
-        $comite = Comite::all()
-            ->where('user_comite_id', '=', $id);
+        $user = auth()->user();
+        $comite = $user->comite; //->comite fonction de relation fait dans Model 
 
         return response()->json([
-            "comite" => $comite[--$id],
+            "comite" => $comite,
         ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
 
+
+        $user_id = auth()->user();
+        $id = $user_id['id'];
         $comite =  Comite::findOrFail($id);
-        
+
+        $request->validate([
+            'comiteName' => 'required|string|max:255',
+            'phone' => 'required|string|max:255',
+            'comiteName' => 'required|string|max:255',
+            'comiteName' => 'required|string|max:255',
+            'comiteName' => 'required|string|max:255',
+            'comiteName' => 'required|string|max:255',
+            'comiteName' => 'required|string|max:255'
+        ]);
+
+
         $comite->comiteName = $request->input('comiteName');
         $comite->phone = $request->input('phone');
         $comite->email = $request->input('email');
@@ -98,18 +66,5 @@ class ComiteController extends Controller
         return response()->json([
             "comite" => $comite,
         ]);
-
-        
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

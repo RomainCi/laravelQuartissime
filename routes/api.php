@@ -42,12 +42,8 @@ Route::get('/comites/nearest', [PublicController::class, "calcultop3assocomite"]
 
 Route::post('login', [UserComiteController::class, "authentificate"]);
 
-// Route::get('comites', [UserComiteController::class, "userProfil"])
-// ->middleware('auth:sanctum');
-
-
-
-Route::middleware('auth:sanctum')->group(function(){
+Route::middleware('auth:sanctum')->group(function () {
     Route::get('comites', [UserComiteController::class, "userProfil"]);
-    Route::resource('profilcomite', ComiteController::class);
+    Route::get('profilcomite', [ComiteController::class, "index"]);
+    Route::put('profilcomite', [ComiteController::class, "update"]);
 });
