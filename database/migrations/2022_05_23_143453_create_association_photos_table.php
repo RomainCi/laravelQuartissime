@@ -14,10 +14,11 @@ return new class extends Migration
     public function up()
     {
         Schema::create('association_photos', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->timestamps();
-            $table->integer('assoc_id');
-            $table->string('nomPhoto');
+            $table->unsignedBigInteger('assocs_id');
+            $table->foreign('assocs_id')->references('id')->on('associations')->onDelete('cascade');;
+            $table->string('pathPhoto');
         });
     }
 

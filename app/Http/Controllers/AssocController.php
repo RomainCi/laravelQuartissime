@@ -69,7 +69,7 @@ class AssocController extends Controller
 
                     VerifAssocPhotos::create([
                         "verif_assocs_id" => $id,
-                        "nomPhoto" => $chemin,
+                        "pathPhoto" => $chemin,
                     ]);
                 };
             }
@@ -94,10 +94,27 @@ class AssocController extends Controller
             $id = $userAssoc[0]['id'];
 
 
-            $chemin = VerifAssocPhotos::select('nomPhoto')
+            $chemin = VerifAssocPhotos::select('pathPhoto')
                 ->where('verif_assocs_id', $id)
                 ->get();
+            // dd($userAssoc[0]->nom);
+            Association::create([
+                "nom" => $userAssoc[0]->nom,
+                "adresse" => $userAssoc[0]->adresse,
+                "status" => $userAssoc[0]->status,
+                "email" => $userAssoc[0]->email,
+                "telephone" => $userAssoc[0]->telephone,
+                "description" => $userAssoc[0]->description,
 
+
+            ]);
+
+            foreach ($chemin as $file) {
+                AssociationPhoto::create([
+                    "assocs_id" => $id,
+                    "pathPhoto" => $file->pathPhoto,
+                ]);
+            };
 
             $delete = VerifAssoc::findOrFail($id);
             $delete->delete();

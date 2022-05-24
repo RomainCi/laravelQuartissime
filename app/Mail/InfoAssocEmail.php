@@ -34,7 +34,7 @@ class InfoAssocEmail extends Mailable
             ->subject('infoAssoc')
             ->view('emails.infoAssoc');
         foreach ($this->chemin as $filePath) {
-            $email->attach($filePath->nomPhoto);
+            $email->attach($filePath->pathPhoto);
         }
 
         return $email;

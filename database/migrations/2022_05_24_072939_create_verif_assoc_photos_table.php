@@ -19,7 +19,7 @@ return new class extends Migration
             $table->timestamps();
             $table->unsignedBigInteger('verif_assocs_id');
             $table->foreign('verif_assocs_id')->references('id')->on('verif_assocs')->onDelete('cascade');;
-            $table->string('nomPhoto');
+            $table->string('pathPhoto');
         });
     }
 
