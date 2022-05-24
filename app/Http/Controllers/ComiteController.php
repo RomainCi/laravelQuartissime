@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comite;
+use App\Models\UserComite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
