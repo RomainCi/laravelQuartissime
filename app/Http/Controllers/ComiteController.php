@@ -26,8 +26,7 @@ class ComiteController extends Controller
             ->where('user_comite_id', '=', $id);
 
         return response()->json([
-            "comite" => $comite,
-
+            "comite" => $comite[--$id],
         ]);
     }
 
@@ -58,7 +57,7 @@ class ComiteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show($id)
     {
     }
 
