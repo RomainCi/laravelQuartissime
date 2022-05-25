@@ -26,7 +26,7 @@ class PublicController extends Controller
             "detailsComite" => $detailsComite,
         ]);
     }
-// FONCTION ASSOCIATIONS
+    // FONCTION ASSOCIATIONS
     public function affichageAssociations()
     {
         $associations = Association::all();
@@ -45,7 +45,7 @@ class PublicController extends Controller
     //     ]);
     // }
 
-    public function calcultop3assocomite(Request $request) 
+    public function calcultop3assocomite(Request $request)
     {
         $request->validate([
             'lon' => 'required|numeric',
@@ -62,14 +62,12 @@ class PublicController extends Controller
         * sin(radians(comites.latitude)))";
 
         $comites =  DB::table('comites')
-        ->select("*") //pick the columns you want here.
-        ->selectRaw("{$haversine} AS distance")
-        ->orderBy('distance')
-        ->limit(3)
-        ->get();
+            ->select("*") //pick the columns you want here.
+            ->selectRaw("{$haversine} AS distance")
+            ->orderBy('distance')
+            ->limit(3)
+            ->get();
 
         return response()->json(['comites' => $comites]);
     }
-
-  
 }

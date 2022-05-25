@@ -3,6 +3,7 @@
 use App\Http\Controllers\ComiteController;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\UserComiteController;
+use App\Http\Controllers\AssociationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Laravel\Sanctum\Sanctum;
@@ -22,19 +23,24 @@ use Laravel\Sanctum\Sanctum;
 //     return $request->user();
 // });
 
-Route::post('/publics', [PublicController::class, 'sendcoordsdata']);
+Route::post('/publics', [PublicController::class, 'savedata']);
+
+
+Route::get('/comites/nearest', [PublicController::class, "calcultop3assocomite"]);
+
+Route::get('/comites/associationsrelatives', [AssociationController::class, "linkassociationtocomite"]);
 
 Route::get("/publics", [PublicController::class, "affichageComites"]);
 
-Route::get('/publics/{id}', [PublicController::class, "showDetailsComite"]);
+Route::get('/comites/{id}', [PublicController::class, "showDetailsComite"]);
 
 // ROUTES ASSOCIATIONS
 
-// Route::get("/publics", [PublicController::class, "affichageAssociations"]);
+Route::get("/associations", [PublicController::class, "affichageAssociations"]);
 
-// Route::get('/publics/{id}', [PublicController::class, "showDetailsAssociation"]);
+/* Route::get('/associations/{id}', [PublicController::class, "showDetailsAssociation"]); */
 
-Route::get('/comites/nearest', [PublicController::class, "calcultop3assocomite"]);
+
 
 
 
