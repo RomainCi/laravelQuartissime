@@ -13,18 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('comites', function (Blueprint $table) {
-            $table->id();
-            $table->integer('user_comite_id')->nullable();
-            $table->string('comiteName');
-            $table->string('firstnamePresident');
-            $table->string('lastnamePresident');
-            $table->string('adress');
+        Schema::create('verif_assocs', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->integer('comite_id');
+            $table->string('nom')->unique();
+            $table->string('token');
+            $table->string('adresse');
+            $table->string('status');
             $table->string('email')->unique();
-            $table->string('phone')->nullable();
-            $table->string('facebookLink')->nullable();
-            $table->string('webSite')->nullable();
-            $table->string('description');
+            $table->string('telephone')->unique()->nullable();
+            $table->text('description');
             $table->float('latitude', 8, 6);
             $table->float('longitude', 8, 6);
             $table->timestamps();
@@ -38,6 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('comites');
+        Schema::dropIfExists('verif_assocs');
     }
 };

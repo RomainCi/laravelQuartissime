@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\VerifAssoc;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,12 +14,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('user_comites', function (Blueprint $table) {
-            $table->id();
-            $table->string('identifiant');
-            $table->string('password');
-            $table->rememberToken();
+        Schema::create('verif_assoc_photos', function (Blueprint $table) {
+            $table->increments('id');
             $table->timestamps();
+            $table->unsignedBigInteger('verif_assocs_id');
+            $table->foreign('verif_assocs_id')->references('id')->on('verif_assocs')->onDelete('cascade');;
+            $table->string('pathPhoto');
         });
     }
 
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_comites');
+        Schema::dropIfExists('verif_assoc_photos');
     }
 };

@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('user_comites', function (Blueprint $table) {
-            $table->id();
-            $table->string('identifiant');
-            $table->string('password');
-            $table->rememberToken();
+        Schema::create('comite_photos', function (Blueprint $table) {
+            $table->increments('id');
             $table->timestamps();
+            $table->unsignedBigInteger('comites_id');
+            $table->foreign('comites_id')->references('id')->on('comites')->onDelete('cascade');;
+            $table->string('pathPhoto');
         });
     }
 
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_comites');
+        Schema::dropIfExists('comite_photos');
     }
 };

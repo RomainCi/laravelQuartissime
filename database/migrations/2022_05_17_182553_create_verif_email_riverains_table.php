@@ -13,11 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('user_comites', function (Blueprint $table) {
+        Schema::create('verif_email_riverains', function (Blueprint $table) {
             $table->id();
-            $table->string('identifiant');
-            $table->string('password');
-            $table->rememberToken();
+            $table->string('token');
+            $table->string('nom');
+            $table->string('prenom');
+            $table->string('adresse')->nullable();
+            $table->string('email')->unique();
             $table->timestamps();
         });
     }
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_comites');
+        Schema::dropIfExists('verif_email_riverains');
     }
 };
