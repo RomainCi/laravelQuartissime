@@ -92,11 +92,13 @@ class AssocController extends Controller
                 ->get();
             $emailComite = "ciszewiczromain@gmail.com";
             $id = $userAssoc[0]['id'];
+            $email = $userAssoc[0]['email'];
 
 
             $chemin = VerifAssocPhotos::select('pathPhoto')
                 ->where('verif_assocs_id', $id)
                 ->get();
+
             // dd($userAssoc[0]->nom);
             Association::create([
                 "nom" => $userAssoc[0]->nom,
@@ -105,13 +107,15 @@ class AssocController extends Controller
                 "email" => $userAssoc[0]->email,
                 "telephone" => $userAssoc[0]->telephone,
                 "description" => $userAssoc[0]->description,
-
-
             ]);
 
+            $newId = Association::select('id')
+                ->where('email', $email)
+                ->get();
+            $trueId = $newId[0]['id'];
             foreach ($chemin as $file) {
                 AssociationPhoto::create([
-                    "assocs_id" => $id,
+                    "assocs_id" => $trueId,
                     "pathPhoto" => $file->pathPhoto,
                 ]);
             };

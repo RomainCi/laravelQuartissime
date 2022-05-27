@@ -21,13 +21,14 @@ class RiverainController extends Controller
                 "email" => 'required|email',
                 "nom" => 'string|required',
                 "prenom" => 'string|required',
-                "adresse" => 'string'
+                "adresse" => 'string|nullable'
             ]);
 
             $email = $request->email;
             $nom = $request->nom;
             $prenom = $request->prenom;
             $adresse = $request->adresse;
+
             $user = [
                 "email" => $email,
                 "nom" => $nom,
