@@ -23,8 +23,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('telephone')->unique()->nullable();
             $table->text('description');
-            $table->float('latitude', 8, 6);
-            $table->float('longitude', 8, 6);
+            $table->decimal('latitude', 10, 8);
+            $table->decimal('longitude', 10, 8);
             $table->timestamps();
         });
     }

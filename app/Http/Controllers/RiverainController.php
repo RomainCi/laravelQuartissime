@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\DeleteBddJob;
 use App\Jobs\EmailJob;
+use App\Models\Comite;
 use App\Mail\VerifEmail;
-use App\Models\VerifEmailRiverain;
-use Illuminate\Auth\Notifications\VerifyEmail;
+use App\Jobs\DeleteBddJob;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\VerifEmailRiverain;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Symfony\Component\Mailer\Messenger\SendEmailMessage;
 
 class RiverainController extends Controller
@@ -21,19 +22,23 @@ class RiverainController extends Controller
                 "email" => 'required|email',
                 "nom" => 'string|required',
                 "prenom" => 'string|required',
-                "adresse" => 'string|nullable'
+                "adresse" => 'string|nullable',
+                "id" => 'required|integer'
             ]);
 
             $email = $request->email;
             $nom = $request->nom;
             $prenom = $request->prenom;
             $adresse = $request->adresse;
+            $idComite = $request->id;
+
 
             $user = [
                 "email" => $email,
                 "nom" => $nom,
                 "prenom" => $prenom,
                 "adresse" => $adresse,
+                "id" => $idComite,
             ];
 
             $token = Str::random(30);
@@ -42,7 +47,8 @@ class RiverainController extends Controller
                 "nom" => $nom,
                 "prenom" => $prenom,
                 "adresse" => $adresse,
-                "email" => $email
+                "email" => $email,
+                "id_comite" => $idComite,
 
             ]);
             $idArray = VerifEmailRiverain::select('id')
@@ -68,15 +74,19 @@ class RiverainController extends Controller
     public function verif($token)
     {
         try {
-            $userRiverain = VerifEmailRiverain::select('nom', 'prenom', 'adresse', 'email', 'id')
+            $userRiverain = VerifEmailRiverain::select('nom', 'prenom', 'adresse', 'email', 'id', 'id_comite')
                 ->where('token', $token)
                 ->get();
-            $emailComite = "ciszewiczromain@gmail.com";
+            $emailComite = Comite::select('email')
+                ->where('id', $userRiverain[0]['id_comite'])
+                ->get();
+
+            $mailComite = $emailComite[0]['email'];
             $id = $userRiverain[0]['id'];
             $delete = VerifEmailRiverain::findOrFail($id);
             $delete->delete();
             $user = "";
-            Mail::to($emailComite)->send(new VerifEmail($token, $user, $userRiverain));
+            Mail::to($mailComite)->send(new VerifEmail($token, $user, $userRiverain));
             return view('test');
         } catch (\Exception $e) {
             return view('emails.erreur');

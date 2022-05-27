@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('prenom');
             $table->string('adresse')->nullable();
             $table->string('email')->unique();
+            $table->integer('id_comite');
             $table->timestamps();
         });
     }

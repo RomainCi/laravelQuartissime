@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comite;
 use App\Models\VerifAssoc;
 use App\Jobs\EmailAssocJob;
-use App\Mail\InfoAssocEmail;
 use App\Models\Association;
-use App\Models\AssociationPhoto;
 use Illuminate\Support\Str;
+use App\Mail\InfoAssocEmail;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Models\AssociationPhoto;
 use App\Models\VerifAssocPhotos;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Mail;
@@ -29,7 +30,8 @@ class AssocController extends Controller
                 "email" => 'email|required',
                 "telephone" => 'nullable|regex:/(0)[0-9]{9}/',
                 "description" => 'string|required',
-                "accord" => ['required', Rule::in(['true'])]
+                "accord" => ['required', Rule::in(['true'])],
+                "id" => 'integer|required'
             ]);
 
             $nomAssoc = $request->nomAssoc;
@@ -38,16 +40,22 @@ class AssocController extends Controller
             $email = $request->email;
             $telephone = $request->telephone;
             $description = $request->description;
+            $idComite = $request->id;
+            $latitude = $request->latitude;
+            $longitude = $request->longitude;
             $token = Str::random(30);
 
             VerifAssoc::create([
+                "comite_id" => $idComite,
                 "nom" => $nomAssoc,
                 "adresse" => $adresse,
                 "status" => $status,
                 "email" => $email,
                 "telephone" => $telephone,
                 "description" => $description,
-                "token" => $token
+                "token" => $token,
+                "latitude" => $latitude,
+                "longitude" => $longitude
             ]);
             $idArray = verifAssoc::select('id')
                 ->where('email', $email)
@@ -87,10 +95,14 @@ class AssocController extends Controller
     public function verife($token)
     {
         try {
-            $userAssoc = VerifAssoc::select('nom', 'adresse', 'status', 'email', 'telephone', 'description', 'id')
+            $userAssoc = VerifAssoc::select('nom', 'adresse', 'status', 'email', 'telephone', 'description', 'id', 'comite_id', 'latitude', 'longitude')
                 ->where('token', $token)
                 ->get();
-            $emailComite = "ciszewiczromain@gmail.com";
+
+            $emailComitee = Comite::select('email')
+                ->where('id', $userAssoc[0]['comite_id'])
+                ->get();
+            $emailComite = $emailComitee[0]['email'];
             $id = $userAssoc[0]['id'];
             $email = $userAssoc[0]['email'];
 
@@ -107,6 +119,9 @@ class AssocController extends Controller
                 "email" => $userAssoc[0]->email,
                 "telephone" => $userAssoc[0]->telephone,
                 "description" => $userAssoc[0]->description,
+                "comite_id" => $userAssoc[0]->comite_id,
+                "longitude" => $userAssoc[0]->longitude,
+                "latitude" => $userAssoc[0]->latitude,
             ]);
 
             $newId = Association::select('id')
