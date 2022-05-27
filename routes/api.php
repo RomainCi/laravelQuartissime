@@ -26,11 +26,11 @@ use Laravel\Sanctum\Sanctum;
 Route::post('/publics', [PublicController::class, 'savedata']);
 
 
-Route::get('/comites/nearest', [PublicController::class, "calcultop3assocomite"]);
+Route::get('/showcomites/nearest', [PublicController::class, "calcultop3assocomite"]);
 
 Route::get('/comites/associationsrelatives', [AssociationController::class, "linkassociationtocomite"]);
 
-Route::get("/publics", [PublicController::class, "affichageComites"]);
+Route::get("/showcomites", [PublicController::class, "affichageComites"]);
 
 Route::get('/comites/{id}', [PublicController::class, "showDetailsComite"]);
 
