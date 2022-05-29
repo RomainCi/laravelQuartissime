@@ -21,11 +21,7 @@ return new class extends Migration
             $table->string('lastnamePresident');
             $table->string('adress');
             $table->string('email');
-<<<<<<< HEAD
-            $table->int('phone')->nullable();
-=======
             $table->integer('phone')->nullable();
->>>>>>> Eric-Sali
             $table->string('facebookLink')->nullable();
             $table->string('webSite')->nullable();
             $table->string('description');

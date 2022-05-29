@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('associations', function (Blueprint $table) {
             $table->id();
+            $table->int('comite_id');
             $table->string('associationName');
             $table->string('firstnamePresident');
             $table->string('lastnamePresident');

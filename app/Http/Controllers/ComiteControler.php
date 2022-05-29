@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Comite;
+use Illuminate\Support\Facades\DB;
 
 class ComiteControler extends Controller
 {
@@ -13,7 +15,8 @@ class ComiteControler extends Controller
      */
     public function index()
     {
-        //
+
+
     }
 
     /**
