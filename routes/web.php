@@ -3,6 +3,7 @@
 use App\Http\Controllers\AssocController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RiverainController;
+use App\Http\Controllers\AssociationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,3 +23,4 @@ Route::get('/', function () {
 Route::get('/verifemail/{token}', [RiverainController::class, 'verif'])->name('verifemail.verif');
 
 Route::get('/verifAssocEmail/{token}', [AssocController::class, 'verife'])->name('verifAssocEmail.verif');
+

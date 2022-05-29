@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Comite;
 use App\Models\UserComite;
+use App\Models\Association;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -22,10 +23,17 @@ class ComiteController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $comite = $user->comite; //->comite fonction de relation fait dans Model 
+        $comite = $user->comite; //->comite fonction de relation fait dans Model parent user comite
+
+        $assoc = Association::select('nom','email','telephone')
+        ->where('comite_id',$comite)
+        ->get();
+        dd($assoc);
+    
 
         return response()->json([
             "comite" => $comite,
+            "assoc"=> $assoc,
         ]);
     }
 

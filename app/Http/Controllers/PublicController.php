@@ -22,9 +22,16 @@ class PublicController extends Controller
     {
 
         $detailsComite = Comite::findOrFail($id);
+        $assoc = Association::select('nom','email','telephone')
+        ->where('comite_id',$id)
+        ->get();
+        // dd($assoc);
         return response()->json([
             "detailsComite" => $detailsComite,
+            "detailsAssoc"=> $assoc,
         ]);
+
+       
     }
     // FONCTION ASSOCIATIONS
     public function affichageAssociations()

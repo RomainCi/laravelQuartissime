@@ -10,13 +10,18 @@ use Illuminate\Support\Facades\DB;
 class AssociationController extends Controller
 {
 
+    
     public function linkassociationtocomite(Request $request)
     {
+      
         $request->validate([
             'id' => 'required|numeric',
 
         ]);
         $comite_id = $request->input("id");
+
+        // dd($comite_id);
+   
 
         $associations = Comite::findOrFail($comite_id)->associations;
 
