@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comite;
+use App\Models\Event;
 use App\Models\Association; 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -21,8 +22,17 @@ class PublicController extends Controller
     {
 
         $detailsComite = Comite::findOrFail($id);
+        $assoc = Association::select('associationName','email','phone')
+        ->where('comite_id',$id)
+        ->get();
+        $events = Event::select('eventname','eventdate','place')
+        ->where('comite_id',$id)
+        ->get();
+
         return response()->json([
             "detailsComite" => $detailsComite,
+            "detailsAssoc"=> $assoc,
+            "events"=> $events,
         ]);
     }
     public function affichageAssociations()

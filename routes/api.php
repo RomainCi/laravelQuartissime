@@ -23,7 +23,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/comites/nearest', [PublicController::class, "calcultop3assocomite"]);
 
-Route::get('/comites/associationsrelatives', [AssociationController::class,"linkassociationtocomite"]);
+//Route::get('/comites/associationsrelatives', [AssociationController::class,"linkassociationtocomite"]);
 
 Route::get("/comites", [PublicController::class, "affichageComites"]);
 

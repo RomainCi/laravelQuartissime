@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Association;
+use App\Models\Event;
 
 
 class Comite extends Model
@@ -28,6 +29,12 @@ class Comite extends Model
     
     {
         return $this->hasMany(Association::class, "comite_id" , "id");
+    }
+
+    public function events(): HasMany
+    
+    {
+        return $this->hasMany(Events::class, "comite_id" , "id");
     }
 
 }
