@@ -7,8 +7,6 @@ use App\Models\Event;
 use App\Models\Association; 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use App\Models\Association;
-use Illuminate\Support\Facades\DB;
 
 
 class PublicController extends Controller
