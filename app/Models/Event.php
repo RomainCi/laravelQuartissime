@@ -17,6 +17,6 @@ class Event extends Model
     public function comites(): BelongsTo
     
     {
-        return $this->BelongsTo(Comite::class, "comite_id" , "id");
+        return $this->belongsTo(Comite::class, "comite_id" , "id");
     }
 }

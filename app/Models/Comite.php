@@ -34,7 +34,7 @@ class Comite extends Model
     public function events(): HasMany
     
     {
-        return $this->hasMany(Events::class, "comite_id" , "id");
+        return $this->hasMany(Event::class, "comite_id" , "id");
     }
 
 }
