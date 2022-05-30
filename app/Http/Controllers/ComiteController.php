@@ -45,25 +45,34 @@ class ComiteController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    // public function updateAssoc(Request $request){
+    public function updateAssoc(Request $request){
 
-    //     $user_id = auth()->user();
-    //     $id = $user_id['id'];
-    //     $comite =  Comite::findOrFail($id);
-    //     $assoc = $comite->associations; // appel de la fonction associations fait dans le model parent comite
+        $user = auth()->user();
+        $comite_id =  $user->comite->id;
 
-    //     dd($assoc);
+        $assoc_id = $request->id;
+        $assoc = Association::findOrFail($assoc_id); // appel de la fonction associations fait dans le model parent comite
 
-    //     $assoc->nom = $request->input('nom');
-    //     $assoc->telephone = $request->input('telephone');
-    //     $assoc->email = $request->input('email');
-    // }
+        if($assoc->comite_id != $comite_id) {
+            return response()->json(["message" => "Vous n'avez pas les droits d'accès nécessaire pour modifier cette assosiation."], 403);
+        }
+
+        $assoc->nom = $request->input('nom');
+        $assoc->telephone = $request->input('telephone');
+        $assoc->email = $request->input('email');
+        
+        $assoc->save();
+
+        response()->json([
+            "message" => "Modifications effectuées",
+            "assoc" => $assoc,
+        ]);
+    }
 
     public function update(Request $request)
     {
-        $user_id = auth()->user();
-        $id = $user_id['id'];
-        $comite =  Comite::findOrFail($id);
+        $user = auth()->user();
+        $comite =  $user->comite;
 
         $assoc = $comite->associations; // appel de la fonction associations fait dans le model parent comite
 
@@ -105,16 +114,14 @@ class ComiteController extends Controller
             $comite->firstnamePresident = $request->input('firstnamePresident');
             $comite->lastnamePresident = $request->input('lastnamePresident');
 
-            $assoc->nom = $request->input('nom');
-            // $assoc->telephone = $request->input('telephone');
-            // $assoc->email = $request->input('email');
+          
 
             $comite->save();
-            $assoc->save();
+         
 
             return response()->json([
                 "comite" => $comite,
-                "assoc" => $assoc,
+    
             ]);
         };
     }
