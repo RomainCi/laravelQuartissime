@@ -6,6 +6,8 @@ use App\Http\Controllers\UserComiteController;
 use App\Http\Controllers\AssociationController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AssocController;
+use App\Http\Controllers\GestionAssocController;
+use App\Http\Controllers\GestionComiteController;
 use App\Http\Controllers\RiverainController;
 use App\Models\Admin;
 use Illuminate\Http\Request;
@@ -64,11 +66,26 @@ Route::post('/assoc', [AssocController::class, 'store']);
 
 Route::post('/connexionAdmin', [AdminController::class, 'connexion']);
 
-
+///////////////////////////////// ADMIN///////////////////
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('dashboard', [AdminController::class, "dashboard"]);
     Route::post('registerAdmin', [AdminController::class, "inscription"]);
     Route::get('showAdmin', [AdminController::class, "showAdmin"]);
     route::put('udpateAdmin', [AdminController::class, "udpateAdmin"]);
     route::delete('deleteAdmin', [AdminController::class, "deleteAdmin"]);
+});
+///////////////////gestion Comite par ADMIN ///////////////////////////
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('showComite', [GestionComiteController::class, "showComite"]);
+    Route::post('inscriptionComite', [GestionComiteController::class, "inscription"]);
+    Route::put("udpateComite", [GestionComiteController::class, "udpateComite"]);
+    Route::delete("deleteComite", [GestionComiteController::class, "deleteComite"]);
+    Route::put("udpateUserComite", [GestionComiteController::class, "udpateUserComite"]);
+    Route::delete("deleteUserComite", [GestionComiteController::class, "deleteUserComite"]);
+});
+
+/////////////////////////gestion Assoc par Admin ////////////////////////////
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('showAssoc', [GestionAssocController::class, "showAssoc"]);
+    Route::put('udpateAssoc', [GestionAssocController::class, 'updateAssoc']);
+    Route::delete('deleteAssoc', [GestionAssocController::class, 'deleteAssoc']);
 });

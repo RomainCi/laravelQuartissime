@@ -12,6 +12,7 @@ class AssociationController extends Controller
 
     public function linkassociationtocomite(Request $request)
     {
+
         $request->validate([
             'id' => 'required|numeric',
 

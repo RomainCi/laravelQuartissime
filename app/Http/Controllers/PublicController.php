@@ -21,9 +21,12 @@ class PublicController extends Controller
     public function showDetailsComite($id)
     {
 
+
+
         $detailsComite = Comite::findOrFail($id);
         return response()->json([
             "detailsComite" => $detailsComite,
+
         ]);
     }
     // FONCTION ASSOCIATIONS
