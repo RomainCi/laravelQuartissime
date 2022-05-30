@@ -6,14 +6,16 @@ use App\Models\Comite;
 use App\Models\UserComite;
 use App\Models\Association;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class GestionAssocController extends Controller
 {
     public function securite()
     {
         try {
+
             $id_admin = Auth::User()->id;
             $admin = UserComite::findOrFail($id_admin);
             if ($admin['roles'] === 1) {
@@ -29,6 +31,7 @@ class GestionAssocController extends Controller
     public function showAssoc()
     {
         try {
+
             $accord = $this->securite();
             if ($accord == true) {
                 $association = Association::select('associations.*', 'comites.comiteName')
@@ -53,7 +56,16 @@ class GestionAssocController extends Controller
         try {
             $accord = $this->securite();
             if ($accord == true) {
-
+                $request->validate([
+                    "nomAssoc" => 'required|string',
+                    "adresse" => 'string|required',
+                    "status" => ['required', Rule::in(['publique', 'prive'])],
+                    "email" => 'email|required',
+                    "telephone" => 'nullable|regex:/(0)[0-9]{9}/',
+                    "description" => 'string|required',
+                    "accord" => ['required', Rule::in(['true'])],
+                    "id" => 'integer|required'
+                ]);
                 Association::where('id', $request->id)
                     ->update([
                         'nom' => $request->nom,
@@ -80,8 +92,12 @@ class GestionAssocController extends Controller
     public function deleteAssoc(Request $request)
     {
         try {
+
             $accord = $this->securite();
             if ($accord == true) {
+                $request->validate([
+                    "id" => "integer|required"
+                ]);
                 $assoc = Association::findOrFail($request->id);
                 $assoc->delete();
                 return response()->json([

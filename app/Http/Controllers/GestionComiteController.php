@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 
 class GestionComiteController extends Controller
 {
@@ -38,17 +39,18 @@ class GestionComiteController extends Controller
         try {
             $accord = $this->securite();
             if ($accord == true) {
-                // $request->validate([
-                //     "identifiant" => 'required|string',
-                //     "adresse" => 'string|required',
-                //     "status" => ['required', Rule::in(['publique', 'prive'])],
-                //     "email" => 'email|required',
-                //     "telephone" => 'nullable|regex:/(0)[0-9]{9}/',
-                //     "description" => 'string|required',
-                //     "accord" => ['required', Rule::in(['true'])],
-                //     "id" => 'integer|required'
-                // ]);
-
+                $request->validate([
+                    "indentifiant" => 'required|string',
+                    "password" => ['required', Password::min(8)->numbers()->mixedCase()->symbols()],
+                    "user_comite_id" => 'required|integer',
+                    "description" => 'string|required',
+                    "phone" => 'nullable|regex:/(0)[0-9]{9}/',
+                    "fisrtnamePresident" => "required|string",
+                    "lastnamePresident" => "required|string",
+                    "adress" => "required|string",
+                    'webSite' => 'url',
+                    "facebookLink" => 'url',
+                ]);
                 $password = Hash::make($request->password);
                 UserComite::create([
                     "identifiant" => $request->identifiant,
@@ -110,6 +112,19 @@ class GestionComiteController extends Controller
         try {
             $accord = $this->securite();
             if ($accord == true) {
+                $request->validate([
+                    "indentifiant" => 'required|string',
+                    "password" => ['required', Password::min(8)->numbers()->mixedCase()->symbols()],
+                    "user_comite_id" => 'required|integer',
+                    "description" => 'string|required',
+                    "phone" => 'nullable|regex:/(0)[0-9]{9}/',
+                    "fisrtnamePresident" => "required|string",
+                    "lastnamePresident" => "required|string",
+                    "adress" => "required|string",
+                    'webSite' => 'url',
+                    "facebookLink" => 'url',
+                    'id' => 'integer|required'
+                ]);
                 Comite::where('id', $request->id)
                     ->update([
                         'comiteName' => $request->nom,
@@ -143,16 +158,9 @@ class GestionComiteController extends Controller
         try {
             $accord = $this->securite();
             if ($accord == true) {
-                // $request->validate([
-                //     "identifiant" => 'required|string',
-                //     "adresse" => 'string|required',
-                //     "status" => ['required', Rule::in(['publique', 'prive'])],
-                //     "email" => 'email|required',
-                //     "telephone" => 'nullable|regex:/(0)[0-9]{9}/',
-                //     "description" => 'string|required',
-                //     "accord" => ['required', Rule::in(['true'])],
-                //     "id" => 'integer|required'
-                // ]);
+                $request->validate([
+                    "id" => 'integer|required'
+                ]);
                 $idArray = Comite::select('user_comite_id')
                     ->where('id', $request->id)
                     ->get();
@@ -181,7 +189,14 @@ class GestionComiteController extends Controller
         try {
             $accord = $this->securite();
             if ($accord == true) {
+                $request->validate([
+                    "id" => 'integer|required',
+                    "indentifiant" => 'required|string',
+                    "password" => ['required', Password::min(8)->numbers()->mixedCase()->symbols()],
+                ]);
+
                 $password = Hash::make($request->password);
+
                 UserComite::where('id', $request->id)
                     ->update([
                         "identifiant" => $request->emailTrue,
@@ -204,6 +219,9 @@ class GestionComiteController extends Controller
         try {
             $accord = $this->securite();
             if ($accord == true) {
+                $request->validate([
+                    "id" => 'integer|required'
+                ]);
                 $userComite = UserComite::findOrfail($request->id);
                 $userComite->delete();
                 $idArray = Comite::select('id')
