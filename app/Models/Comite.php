@@ -29,4 +29,10 @@ class Comite extends Model
     {
         return $this->hasMany(Association::class, "comite_id", "id");
     }
+
+    public function events(): HasMany
+
+    {
+        return $this->hasMany(Event::class, "comite_id" , "id");
+    }
 }

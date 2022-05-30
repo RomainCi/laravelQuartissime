@@ -10,6 +10,7 @@ use App\Http\Controllers\GestionAssocController;
 use App\Http\Controllers\GestionComiteController;
 use App\Http\Controllers\RiverainController;
 use App\Models\Admin;
+use App\Models\Comite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Laravel\Sanctum\Sanctum;
@@ -58,6 +59,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('comites', [UserComiteController::class, "userProfil"]);
     Route::get('profilcomite', [ComiteController::class, "index"]);
     Route::put('profilcomite', [ComiteController::class, "update"]);
+    Route::put('association', [ComiteController::class, "updateAssoc"]);
 });
 
 Route::post('/riverain', [RiverainController::class, 'store']);

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 class AssociationController extends Controller
 {
 
+
     public function linkassociationtocomite(Request $request)
     {
 
@@ -18,6 +19,9 @@ class AssociationController extends Controller
 
         ]);
         $comite_id = $request->input("id");
+
+        // dd($comite_id);
+
 
         $associations = Comite::findOrFail($comite_id)->associations;
 
