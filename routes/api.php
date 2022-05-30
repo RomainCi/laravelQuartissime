@@ -56,6 +56,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('comites', [UserComiteController::class, "userProfil"]);
     Route::get('profilcomite', [ComiteController::class, "index"]);
     Route::put('profilcomite', [ComiteController::class, "update"]);
+  
 });
 
 Route::post('/riverain', [RiverainController::class, 'store']);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Comite;
 use App\Models\UserComite;
 use App\Models\Association;
+use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -24,16 +25,16 @@ class ComiteController extends Controller
     {
         $user = auth()->user();
         $comite = $user->comite; //->comite fonction de relation fait dans Model parent user comite
-
-        $assoc = Association::select('nom','email','telephone')
-        ->where('comite_id',$comite)
-        ->get();
-        dd($assoc);
-    
-
+        // dd($comite);
+      
+        $assoc = $comite->associations; // appel de la fonction associations fait dans le model parent comite
+         // dd($assoc);
+        $detailsEvents = $comite->events;
+       
         return response()->json([
             "comite" => $comite,
             "assoc"=> $assoc,
+            "detailsEvents" => $detailsEvents,
         ]);
     }
 
@@ -44,11 +45,27 @@ class ComiteController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+    // public function updateAssoc(Request $request){
+
+    //     $user_id = auth()->user();
+    //     $id = $user_id['id'];
+    //     $comite =  Comite::findOrFail($id);
+    //     $assoc = $comite->associations; // appel de la fonction associations fait dans le model parent comite
+
+    //     dd($assoc);
+
+    //     $assoc->nom = $request->input('nom');
+    //     $assoc->telephone = $request->input('telephone');
+    //     $assoc->email = $request->input('email');
+    // }
+
     public function update(Request $request)
     {
         $user_id = auth()->user();
         $id = $user_id['id'];
         $comite =  Comite::findOrFail($id);
+
+        $assoc = $comite->associations; // appel de la fonction associations fait dans le model parent comite
 
 
         $array = (array) $request->all();
@@ -88,10 +105,16 @@ class ComiteController extends Controller
             $comite->firstnamePresident = $request->input('firstnamePresident');
             $comite->lastnamePresident = $request->input('lastnamePresident');
 
+            $assoc->nom = $request->input('nom');
+            // $assoc->telephone = $request->input('telephone');
+            // $assoc->email = $request->input('email');
+
             $comite->save();
+            $assoc->save();
 
             return response()->json([
                 "comite" => $comite,
+                "assoc" => $assoc,
             ]);
         };
     }
