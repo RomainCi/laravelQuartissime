@@ -40,16 +40,15 @@ class GestionComiteController extends Controller
             $accord = $this->securite();
             if ($accord == true) {
                 $request->validate([
-                    "indentifiant" => 'required|string',
+                    "identifiant" => 'required|string',
                     "password" => ['required', Password::min(8)->numbers()->mixedCase()->symbols()],
-                    "user_comite_id" => 'required|integer',
                     "description" => 'string|required',
-                    "phone" => 'nullable|regex:/(0)[0-9]{9}/',
-                    "fisrtnamePresident" => "required|string",
-                    "lastnamePresident" => "required|string",
-                    "adress" => "required|string",
-                    'webSite' => 'url',
-                    "facebookLink" => 'url',
+                    "telephone" => 'nullable|regex:/(0)[0-9]{9}/',
+                    "prenomP" => "required|string",
+                    "nomP" => "required|string",
+                    "adresse" => "required|string",
+                    'site' => 'url',
+                    "facebook" => 'url',
                 ]);
                 $password = Hash::make($request->password);
                 UserComite::create([
@@ -113,17 +112,14 @@ class GestionComiteController extends Controller
             $accord = $this->securite();
             if ($accord == true) {
                 $request->validate([
-                    "indentifiant" => 'required|string',
-                    "password" => ['required', Password::min(8)->numbers()->mixedCase()->symbols()],
-                    "user_comite_id" => 'required|integer',
+                    "nom" => 'required|string',
                     "description" => 'string|required',
-                    "phone" => 'nullable|regex:/(0)[0-9]{9}/',
-                    "fisrtnamePresident" => "required|string",
-                    "lastnamePresident" => "required|string",
-                    "adress" => "required|string",
-                    'webSite' => 'url',
-                    "facebookLink" => 'url',
-                    'id' => 'integer|required'
+                    "telephone" => 'nullable|regex:/(0)[0-9]{9}/',
+                    "prenomP" => "required|string",
+                    "nomP" => "required|string",
+                    "adresse" => "required|string",
+                    'site' => 'url|nullable',
+                    "facebook" => 'nullable|url',
                 ]);
                 Comite::where('id', $request->id)
                     ->update([
@@ -148,6 +144,7 @@ class GestionComiteController extends Controller
                 ], 404);
             }
         } catch (\Exception $e) {
+            dd($e);
             return response()->json([
                 "message" => "erreur"
             ], 404);
