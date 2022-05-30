@@ -47,8 +47,8 @@ class GestionComiteController extends Controller
                     "prenomP" => "required|string",
                     "nomP" => "required|string",
                     "adresse" => "required|string",
-                    'site' => 'url',
-                    "facebook" => 'url',
+                    'site' => 'url|nullable',
+                    "facebook" => 'url|nullable',
                 ]);
                 $password = Hash::make($request->password);
                 UserComite::create([
@@ -188,7 +188,7 @@ class GestionComiteController extends Controller
             if ($accord == true) {
                 $request->validate([
                     "id" => 'integer|required',
-                    "indentifiant" => 'required|string',
+                    "emailTrue" => 'required|string',
                     "password" => ['required', Password::min(8)->numbers()->mixedCase()->symbols()],
                 ]);
 

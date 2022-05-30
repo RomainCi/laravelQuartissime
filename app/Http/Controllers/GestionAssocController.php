@@ -57,13 +57,12 @@ class GestionAssocController extends Controller
             $accord = $this->securite();
             if ($accord == true) {
                 $request->validate([
-                    "nomAssoc" => 'required|string',
+                    "nom" => 'required|string',
                     "adresse" => 'string|required',
                     "status" => ['required', Rule::in(['publique', 'prive'])],
                     "email" => 'email|required',
                     "telephone" => 'nullable|regex:/(0)[0-9]{9}/',
                     "description" => 'string|required',
-                    "accord" => ['required', Rule::in(['true'])],
                     "id" => 'integer|required'
                 ]);
                 Association::where('id', $request->id)
