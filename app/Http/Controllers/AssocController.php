@@ -23,6 +23,7 @@ class AssocController extends Controller
     {
 
         try {
+
             $request->validate([
                 "nomAssoc" => 'required|string',
                 "adresse" => 'string|required',
@@ -141,7 +142,7 @@ class AssocController extends Controller
             Mail::to($emailComite)->send(new InfoAssocEmail($userAssoc, $chemin));
             return view('test');
         } catch (\Exception $e) {
-            dd($e);
+
             return view('emails.erreur');
         }
     }
