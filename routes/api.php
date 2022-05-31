@@ -58,6 +58,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('profilcomite', [ComiteController::class, "index"]);
     Route::put('profilcomite', [ComiteController::class, "update"]);
     Route::put('association', [ComiteController::class, "updateAssoc"]);
+    Route::delete('association', [ComiteController::class, "deleteAssoc"]);
 });
 
 Route::post('/riverain', [RiverainController::class, 'store']);
