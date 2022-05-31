@@ -26,14 +26,14 @@ class ComiteController extends Controller
         $user = auth()->user();
         $comite = $user->comite; //->comite fonction de relation fait dans Model parent user comite
         // dd($comite);
-      
+
         $assoc = $comite->associations; // appel de la fonction associations fait dans le model parent comite
-         // dd($assoc);
+        // dd($assoc);
         $detailsEvents = $comite->events;
-       
+
         return response()->json([
             "comite" => $comite,
-            "assoc"=> $assoc,
+            "assoc" => $assoc,
             "detailsEvents" => $detailsEvents,
         ]);
     }
@@ -45,27 +45,40 @@ class ComiteController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    // public function updateAssoc(Request $request){
+    public function updateAssoc(Request $request)
+    {
+        try {
+            $user = auth()->user();
+            $comite_id =  $user->comite->id;
 
-    //     $user_id = auth()->user();
-    //     $id = $user_id['id'];
-    //     $comite =  Comite::findOrFail($id);
-    //     $assoc = $comite->associations; // appel de la fonction associations fait dans le model parent comite
+            $assoc_id = $request->id;
 
-    //     dd($assoc);
+            $assoc = Association::findOrFail($assoc_id); // appel de la fonction associations fait dans le model parent comite
 
-    //     $assoc->nom = $request->input('nom');
-    //     $assoc->telephone = $request->input('telephone');
-    //     $assoc->email = $request->input('email');
-    // }
+            if ($assoc->comite_id != $comite_id) {
+                return response()->json(["message" => "Vous n'avez pas les droits d'accès nécessaire pour modifier cette assosiation."], 403);
+            }
+
+            $assoc->nom = $request->input('nom');
+            $assoc->telephone = $request->input('telephone');
+            $assoc->email = $request->input('email');
+
+            $assoc->save();
+
+            return response()->json([
+                "message" => "Modifications effectuées",
+                "assoc" => $assoc,
+            ]);
+        } catch (\Exception $e) {
+            dd($e);
+        }
+    }
 
     public function update(Request $request)
     {
-        $user_id = auth()->user();
-        $id = $user_id['id'];
-        $comite =  Comite::findOrFail($id);
+        $user = auth()->user();
+        $comite =  $user->comite;
 
-        $assoc = $comite->associations; // appel de la fonction associations fait dans le model parent comite
 
 
         $array = (array) $request->all();
@@ -105,21 +118,20 @@ class ComiteController extends Controller
             $comite->firstnamePresident = $request->input('firstnamePresident');
             $comite->lastnamePresident = $request->input('lastnamePresident');
 
-            $assoc->nom = $request->input('nom');
-            // $assoc->telephone = $request->input('telephone');
-            // $assoc->email = $request->input('email');
+
 
             $comite->save();
-            $assoc->save();
+
 
             return response()->json([
                 "comite" => $comite,
-                "assoc" => $assoc,
+
             ]);
         };
     }
 
-    public function savenewevent(Request $request) {
+    public function savenewevent(Request $request)
+    {
 
         $request->validate([
             "eventname" => 'required|string',
@@ -129,14 +141,14 @@ class ComiteController extends Controller
             "type" => 'required|string'
         ]);
 
-$event = [
-        "comite_id"=> $request->input("comite_id"),
-        "eventname"=> $request->input("eventname"),
-        'eventdate' => $request->input("eventdate"),
-        'place' => $request->input("place"),
-        'description' => $request->input("description"),
-        'type' => $request->input("type")
-];
+        $event = [
+            "comite_id" => $request->input("comite_id"),
+            "eventname" => $request->input("eventname"),
+            'eventdate' => $request->input("eventdate"),
+            'place' => $request->input("place"),
+            'description' => $request->input("description"),
+            'type' => $request->input("type")
+        ];
         Event::create($event);
     }
 }

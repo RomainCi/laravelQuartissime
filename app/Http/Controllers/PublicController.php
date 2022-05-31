@@ -22,21 +22,21 @@ class PublicController extends Controller
     public function showDetailsComite($id)
     {
 
+
+
         $detailsComite = Comite::findOrFail($id);
-        $assoc = Association::select('nom','email','telephone')
-        ->where('comite_id',$id)
-        ->get();
-        $events = Event::select('eventname','eventdate','place')
-        ->where('comite_id',$id)
-        ->get();
+        $assoc = Association::select('nom', 'email', 'telephone')
+            ->where('comite_id', $id)
+            ->get();
+        $events = Event::select('eventname', 'eventdate', 'place')
+            ->where('comite_id', $id)
+            ->get();
         // dd($assoc);
         return response()->json([
             "detailsComite" => $detailsComite,
-            "detailsAssoc"=> $assoc,
+            "detailsAssoc" => $assoc,
             "events" => $events,
         ]);
-
-       
     }
     // FONCTION ASSOCIATIONS
     public function affichageAssociations()

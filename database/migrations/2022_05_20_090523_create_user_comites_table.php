@@ -15,8 +15,9 @@ return new class extends Migration
     {
         Schema::create('user_comites', function (Blueprint $table) {
             $table->id();
-            $table->string('identifiant');
+            $table->string('identifiant')->unique();
             $table->string('password');
+            $table->integer('roles')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });
