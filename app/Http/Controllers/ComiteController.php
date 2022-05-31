@@ -118,4 +118,25 @@ class ComiteController extends Controller
             ]);
         };
     }
+
+    public function savenewevent(Request $request) {
+
+        $request->validate([
+            "eventname" => 'required|string',
+            "eventdate" => 'required|date',
+            "place" => 'required|string',
+            "description" => 'required|string',
+            "type" => 'required|string'
+        ]);
+
+$event = [
+        "comite_id"=> $request->input("comite_id"),
+        "eventname"=> $request->input("eventname"),
+        'eventdate' => $request->input("eventdate"),
+        'place' => $request->input("place"),
+        'description' => $request->input("description"),
+        'type' => $request->input("type")
+];
+        Event::create($event);
+    }
 }

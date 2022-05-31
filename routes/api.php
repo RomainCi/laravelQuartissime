@@ -27,12 +27,10 @@ use Laravel\Sanctum\Sanctum;
 //     return $request->user();
 // });
 
-Route::post('/publics', [PublicController::class, 'savedata']);
+Route::post('/events', [ComiteController::class, 'savenewevent']);
 
 
 Route::get('/showcomites/nearest', [PublicController::class, "calcultop3assocomite"]);
-
-Route::get('/comites/associationsrelatives', [AssociationController::class, "linkassociationtocomite"]);
 
 Route::get("/showcomites", [PublicController::class, "affichageComites"]);
 
@@ -41,8 +39,6 @@ Route::get('/comites/{id}', [PublicController::class, "showDetailsComite"]);
 // ROUTES ASSOCIATIONS
 
 Route::get("/associations", [PublicController::class, "affichageAssociations"]);
-
-/* Route::get('/associations/{id}', [PublicController::class, "showDetailsAssociation"]); */
 
 
 
