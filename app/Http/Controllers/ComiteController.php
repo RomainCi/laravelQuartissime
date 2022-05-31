@@ -46,34 +46,6 @@ class ComiteController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function updateAssoc(Request $request)
-    {
-        try {
-            $user = auth()->user();
-            $comite_id =  $user->comite->id;
-
-            $assoc_id = $request->id;
-
-            $assoc = Association::findOrFail($assoc_id); // appel de la fonction associations fait dans le model parent comite
-
-            if ($assoc->comite_id != $comite_id) {
-                return response()->json(["message" => "Vous n'avez pas les droits d'accès nécessaire pour modifier cette assosiation."], 403);
-            }
-
-            $assoc->nom = $request->input('nom');
-            $assoc->telephone = $request->input('telephone');
-            $assoc->email = $request->input('email');
-
-            $assoc->save();
-
-            return response()->json([
-                "message" => "Modifications effectuées",
-                "assoc" => $assoc,
-            ]);
-        } catch (\Exception $e) {
-            dd($e);
-        }
-    }
 
     public function update(Request $request)
     {
@@ -131,6 +103,35 @@ class ComiteController extends Controller
         };
     }
 
+    public function updateAssoc(Request $request)
+    {
+        try {
+            $user = auth()->user();
+            $comite_id =  $user->comite->id;
+
+            $assoc_id = $request->id;
+
+            $assoc = Association::findOrFail($assoc_id); // appel de la fonction associations fait dans le model parent comite
+
+            if ($assoc->comite_id != $comite_id) {
+                return response()->json(["message" => "Vous n'avez pas les droits d'accès nécessaire pour modifier cette assosiation."], 403);
+            }
+
+            $assoc->nom = $request->input('nom');
+            $assoc->telephone = $request->input('telephone');
+            $assoc->email = $request->input('email');
+
+            $assoc->save();
+
+            return response()->json([
+                "message" => "Modifications effectuées",
+                "assoc" => $assoc,
+            ]);
+        } catch (\Exception $e) {
+            dd($e);
+        }
+    }
+
     public function savenewevent(Request $request)
     {
 
@@ -151,5 +152,50 @@ class ComiteController extends Controller
             'type' => $request->input("type")
         ];
         Event::create($event);
+    }
+
+    public function deleteevent(Request $request)
+    {
+
+        $user = auth()->user();
+        $comite_id =  $user->comite->id;
+
+        $event_id = $request->id;
+
+        $event = Event::findOrFail($event_id);
+
+        if ($event->comite_id != $comite_id) {
+            return response()->json(["message" => "Vous n'avez pas les droits d'accès nécessaire pour supprimer cet évènement."], 403);
+        }
+
+        $event->delete();
+
+        return response()->json([
+            "message" => "suppression ok"
+        ]);
+    }
+
+
+    public function deleteAssoc(Request $request)
+    {
+
+
+        $user = auth()->user();
+        $comite_id =  $user->comite->id;
+
+        $assoc_id = $request->id;
+
+        $assoc = Association::findOrFail($assoc_id);
+
+        if ($assoc->comite_id != $comite_id) {
+            return response()->json(["message" => "Vous n'avez pas les droits d'accès nécessaire pour supprimer cette association."], 403);
+        }
+
+
+        $assoc->delete();
+
+        return response()->json([
+            "message" => "suppression ok"
+        ]);
     }
 }
