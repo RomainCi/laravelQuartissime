@@ -117,11 +117,7 @@ class ComiteController extends Controller
             $comite->description = $request->input('description');
             $comite->firstnamePresident = $request->input('firstnamePresident');
             $comite->lastnamePresident = $request->input('lastnamePresident');
-
-
-
             $comite->save();
-
 
             return response()->json([
                 "comite" => $comite,
@@ -150,5 +146,29 @@ class ComiteController extends Controller
             'type' => $request->input("type")
         ];
         Event::create($event);
+    }
+
+    public function deleteevent(Request $request)
+    {
+
+        $user = auth()->user();
+        $comite_id =  $user->comite->id;
+
+//    dd($comite_id);
+        $event_id = $request->id;
+
+        $event = Event::findOrFail($event_id);
+
+        if ($event->comite_id != $comite_id) {
+            return response()->json(["message" => "Vous n'avez pas les droits d'accès nécessaire pour supprimer cet évènement."], 403);
+        }
+
+//   dd($assoc);
+        $event->delete();
+
+        return response()->json([
+            "message" => "suppression ok"
+        ]);
+      
     }
 }

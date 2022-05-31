@@ -30,7 +30,7 @@ use Laravel\Sanctum\Sanctum;
 //     return $request->user();
 // });
 
-Route::post('/events', [ComiteController::class, 'savenewevent']);
+
 
 
 Route::get('/showcomites/nearest', [PublicController::class, "calcultop3assocomite"]);
@@ -42,11 +42,6 @@ Route::get('/comites/{id}', [PublicController::class, "showDetailsComite"]);
 // ROUTES ASSOCIATIONS
 
 Route::get("/associations", [PublicController::class, "affichageAssociations"]);
-
-
-
-
-
 
 
 // ROUTES USER COMITES
@@ -88,4 +83,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('showAssoc', [GestionAssocController::class, "showAssoc"]);
     Route::put('udpateAssoc', [GestionAssocController::class, 'updateAssoc']);
     Route::delete('deleteAssoc', [GestionAssocController::class, 'deleteAssoc']);
+});
+
+/////////////////////////gestion Events par User Comite ////////////////////////////
+Route::middleware('auth:sanctum')->group(function () {
+Route::post('/events', [ComiteController::class, 'savenewevent']);
+Route::delete('/events', [ComiteController::class, 'deleteevent']);
 });
