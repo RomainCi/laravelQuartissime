@@ -53,6 +53,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('profilcomite', [ComiteController::class, "index"]);
     Route::put('profilcomite', [ComiteController::class, "update"]);
     Route::put('association', [ComiteController::class, "updateAssoc"]);
+    Route::delete('association', [ComiteController::class, "deleteAssoc"]);
 });
 
 Route::post('/riverain', [RiverainController::class, 'store']);
@@ -87,6 +88,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
 /////////////////////////gestion Events par User Comite ////////////////////////////
 Route::middleware('auth:sanctum')->group(function () {
-Route::post('/events', [ComiteController::class, 'savenewevent']);
-Route::delete('/events', [ComiteController::class, 'deleteevent']);
+    Route::post('/events', [ComiteController::class, 'savenewevent']);
+    Route::delete('/events', [ComiteController::class, 'deleteevent']);
 });
