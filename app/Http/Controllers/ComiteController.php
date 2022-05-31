@@ -153,19 +153,23 @@ class ComiteController extends Controller
         Event::create($event);
     }
 
-    
+
     public function deleteAssoc(Request $request){
 
 
         $user = auth()->user();
         $comite_id =  $user->comite->id;
 
-   dd($comite_id);
+//    dd($comite_id);
         $assoc_id = $request->id;
      
         $assoc = Association::findOrFail($assoc_id);
 
-  dd($assoc);
+        if ($assoc->comite_id != $comite_id) {
+            return response()->json(["message" => "Vous n'avez pas les droits d'accès nécessaire pour supprimer cette association."], 403);
+        }
+
+//   dd($assoc);
         $assoc->delete();
 
         return response()->json([
