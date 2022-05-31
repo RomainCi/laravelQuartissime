@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\DeleteForgetJob;
+use App\Jobs\ForgetJob;
 use App\Models\Admin;
 use App\Models\UserComite;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Forgetpassword;
 use PhpParser\Node\Stmt\TryCatch;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 
@@ -156,6 +160,70 @@ class AdminController extends Controller
             return true;
         } else {
             return false;
+        }
+    }
+    public function forgetpassword(Request $request)
+    {
+        try {
+            $request->validate([
+                "email" => 'required|email',
+            ]);
+
+            $mail = UserComite::select('identifiant', 'id')
+                ->where('identifiant', $request->email)
+                ->get();
+            $trueMail = $mail[0]['identifiant'];
+
+            $token = Str::random(30);
+
+            Forgetpassword::create([
+                "email" => $trueMail,
+                "token" => $token,
+            ]);
+            $idArray = Forgetpassword::select('id')
+                ->where('token', $token)
+                ->get();
+            $id = $idArray[0]['id'];
+            dispatch(new ForgetJob($token, $trueMail))->delay(now()->addSeconds(3));
+            dispatch(new DeleteForgetJob($id))->delay(now()->addMinutes(5));
+            return response()->json([
+                "message" => "oki"
+            ]);
+        } catch (\Exception $e) {
+            dd($e);
+        }
+    }
+    public function repassword($token)
+    {
+        try {
+            $email = Forgetpassword::select('email')
+                ->where('token', $token)
+                ->get();
+            $mail = $email[0]['email'];
+            return view('emails.nono', compact('mail'));
+        } catch (\Exception $e) {
+            return view('emails.erreur');
+        }
+    }
+
+    public function pass(Request $request)
+    {
+        try {
+            $request->validate([
+                'password' => 'required|string',
+                'email' => 'required|string',
+            ]);
+            $password = Hash::make($request->password);
+            UserComite::where('identifiant', $request->email)
+                ->update(['password' => $password]);
+            $id = Forgetpassword::select('id')
+                ->where('email', $request->email)
+                ->get();
+            $admin = Forgetpassword::findOrFail($id[0]['id']);
+            $admin->delete();
+            return view('emails.ok');
+        } catch (\Exception $e) {
+            return view('emails.probleme');
         }
     }
 }

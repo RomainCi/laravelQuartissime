@@ -89,3 +89,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('udpateAssoc', [GestionAssocController::class, 'updateAssoc']);
     Route::delete('deleteAssoc', [GestionAssocController::class, 'deleteAssoc']);
 });
+
+////////////////////////passwordOublie//////////////////
+Route::post('/forgetpassword', [AdminController::class, 'forgetpassword']);

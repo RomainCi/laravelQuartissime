@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AssocController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RiverainController;
@@ -24,3 +25,8 @@ Route::get('/verifemail/{token}', [RiverainController::class, 'verif'])->name('v
 
 Route::get('/verifAssocEmail/{token}', [AssocController::class, 'verife'])->name('verifAssocEmail.verif');
 
+Route::post('forgetPass', [AdminController::class, 'password'])->name('forgetPass.password');
+
+Route::get('forgetPassword/{token}', [AdminController::class, 'rePassword'])->name('forgetpassword.rePassword');
+
+Route::post('newPass', [AdminController::class, 'pass'])->name('newPass.pass');
